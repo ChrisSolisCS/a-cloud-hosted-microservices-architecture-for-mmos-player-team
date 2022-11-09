@@ -9,6 +9,9 @@ import javax.validation.constraints.NotNull;
 @Table(name = "users")
 
 public class User {
+    @Column(name = "isOnline")
+    private Boolean isOnline;
+
     @Column(name = "gamer_tag")
     @NotNull(message = "gamerTag cannot be null")
     private String gamerTag;
@@ -23,10 +26,11 @@ public class User {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Long userId;
 
-    public User(Long userId,String email, String gamerTag) {
+    public User(Long userId,String email, String gamerTag, Boolean isOnline) {
         this.userId = userId;
         this.email = email;
         this.gamerTag = gamerTag;
+        this.isOnline = isOnline;
     }
 
     public User(String email) {
@@ -59,4 +63,8 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public Boolean getIsOnline() { return isOnline; }
+
+    public void setIsOnline(Boolean isOnline) { this.isOnline = isOnline; }
 }

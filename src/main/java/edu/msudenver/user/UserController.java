@@ -25,7 +25,7 @@ public class UserController {
     }
 
     @PostMapping(consumes = "application/json", produces = "application/json")
-    public ResponseEntity<User> createCountry(@RequestBody User user) {
+    public ResponseEntity<User> createUser(@RequestBody User user) {
         try {
             return new ResponseEntity<>(userService.saveUser(user), HttpStatus.CREATED);
         } catch (Exception e) {
