@@ -1,4 +1,4 @@
-package edu.msudenver.character;
+package edu.msudenver.characterStats;
 
 
 import javax.persistence.*;
@@ -9,7 +9,7 @@ import java.math.BigInteger;
 @Entity
 @Table(name = "character")
 
-public class Character {
+public class CharacterStats {
     @Column(name = "class_type") //class type
     private String classType; //why is class type
 
@@ -53,11 +53,11 @@ public class Character {
     private String currentCharacter; //this had a * I assumed it was going to be our primary char
 
 
-    public Character() {
+    public CharacterStats() {
 
     }
 
-    public Character(String name, String classType) {
+    public CharacterStats(String name, String classType) {
         this.name = name;
         this.classType = classType;
     }
