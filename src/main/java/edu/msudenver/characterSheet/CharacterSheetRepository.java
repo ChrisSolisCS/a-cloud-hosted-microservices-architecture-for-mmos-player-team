@@ -1,5 +1,7 @@
 package edu.msudenver.characterSheet;
 
-//TODO:
-public class CharacterSheetRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface CharacterSheetRepository extends JpaRepository<CharacterSheet, String> {
+    CharacterSheet getCharacterSheetByCharacterName(String characterName);
 }
