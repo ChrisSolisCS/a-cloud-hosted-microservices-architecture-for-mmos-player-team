@@ -1,4 +1,4 @@
-package edu.msudenver.user;
+package edu.msudenver.account;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,20 +10,20 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
-public class UserService {
+public class AccountService {
     @Autowired
-    private UserRepository userRepository;
+    private AccountRepository accountRepository;
 
     @PersistenceContext
     protected EntityManager entityManager;
 
-    public List<User> getUsers() {
-        return userRepository.findAll();
+    public List<Account> getAccounts() {
+        return accountRepository.findAll();
     }
 
-    public User getUser(Long userId) {
+    public Account getAccount(Long accountId) {
         try {
-            return userRepository.findById(userId).get();
+            return accountRepository.findById(accountId).get();
         } catch(NoSuchElementException | IllegalArgumentException e) {
             e.printStackTrace();
             return null;
@@ -31,16 +31,16 @@ public class UserService {
     }
 
     @Transactional
-    public User saveUser(User user) {
-        user = userRepository.saveAndFlush(user);
-        entityManager.refresh(user);
-        return user;
+    public Account saveAccount(Account account) {
+        account = accountRepository.saveAndFlush(account);
+        entityManager.refresh(account);
+        return account;
     }
 
-    public boolean deleteUser(Long userId) {
+    public boolean deleteAccount(Long accountId) {
         try {
-            if(userRepository.existsById(userId)) {
-                userRepository.deleteById(userId);
+            if(accountRepository.existsById(accountId)) {
+                accountRepository.deleteById(accountId);
                 return true;
             }
         } catch(IllegalArgumentException e) {
