@@ -1,59 +1,135 @@
 package edu.msudenver.characterSheet;
 
-//import edu.msudenver.user.User;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import org.springframework.web.bind.annotation.RequestBody;
+import edu.msudenver.account.Account;
+//import edu.msudenver.inventory.Inventory;
+//import edu.msudenver.characterStats.CharacterStats;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-//Entity class for the character sheet
-@Setter //Lombok annotation to generate setters
-@Getter //Lombok annotation to generate getters
-@Entity //JPA annotation to make this object an entity
-@RequiredArgsConstructor // for the empty constructor
-@Table(name = "character_sheet")
+
+@Entity
+@Table(name = "characterSheets")
+
 public class CharacterSheet {
-    // primary key for the character sheet
+
+    @ManyToOne
+    @JoinColumn(name = "account_id", referencedColumnName = "account_id", insertable = false, updatable = false)
+    private Account account;
+
+
+//    @OneToMany
+//    @JoinColumn(name = "inventory_id", referencedColumnName = "inventory_id", insertable = false, updatable = false)
+//    private Inventory inventory;
+//
+//    @ManyToOne()
+//    @JoinColumn(name = "character_stats_id", referencedColumnName = "character_stats_id", insertable = false, updatable = false)
+//    private CharacterStats characterStats;
+
+//    @Column(name = "inventory_id")
+//    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+//    private Long inventoryId;
+//
+//    @Column(name = "character_stats_id")
+//    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+//    private Long characterStatsId;
+
+
+    @Column(name = "account_id")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private Long accountId;
+
     @Id
+    @Column(name = "character_id", columnDefinition = "SERIAL")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private Long characterId;
+
     @Column(name = "character_name")
     @NotNull(message = "you must have a character name")
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String characterName;
-    // foreign key from the accouct table
-    // join annotation
-    //@OneToMany() this is not working for some reason
-    @JoinColumn(name = "account_id", updatable = false, insertable = false, referencedColumnName = "account_id")
-    private Long accountId;
-    // foreign key from the inventory table
-    @Column(name = "inventory_id")
-    private Long inventoryId;
-    // foreign key from the stats table
-    @Column(name = "stats_id")
-    private Long statsId;
-    // TODO: talk to matt about below itemId inventory table
-    @Column(name = "equipped_item")
-    private Long equippedItem;
+
     @Column(name = "class_type")
     private String classType;
+
+//    // TODO: talk to matt about below itemId inventory table
+//    @Column(name = "equipped_item")
+//    private String equippedItem;
+
     @Column(name = "gender")
     private String gender;
+
     @Column(name = "origins")
     private String origins;
 
-    // constructor for the character sheet
-    public CharacterSheet(@RequestBody String characterName, @RequestBody String gender, @RequestBody String origins,
-                          Long accountId, Long inventoryId, Long statsId, @RequestBody String classType) {
+
+    public CharacterSheet(Long characterId, String characterName, Account account, Long accountId, String classType, String gender, String origins) {
+        this.characterId = characterId;
+        this.characterName = characterName;
+        this.account = account;
+        this.accountId = accountId;
+        this.classType = classType;
         this.gender = gender;
         this.origins = origins;
+    }
+
+    public CharacterSheet() {
+    }
+
+    public Long getCharacterId() {
+        return characterId;
+    }
+
+    public void setCharacterId(Long characterId) {
+        this.characterId = characterId;
+    }
+
+    public String getCharacterName() {
+        return characterName;
+    }
+
+    public void setCharacterName(String characterName) {
         this.characterName = characterName;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
+    public Long getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(Long accountId) {
         this.accountId = accountId;
-        this.inventoryId = inventoryId;
-        this.statsId = statsId;
-        this.equippedItem = null; // start with nothing equipped
+    }
+
+    public String getClassType() {
+        return classType;
+    }
+
+    public void setClassType(String classType) {
         this.classType = classType;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getOrigins() {
+        return origins;
+    }
+
+    public void setOrigins(String origins) {
+        this.origins = origins;
     }
 }
