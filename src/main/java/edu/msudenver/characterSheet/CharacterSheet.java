@@ -19,7 +19,7 @@ public class CharacterSheet {
     private Account account;
 
 
-//    @OneToMany
+//    @ManyToOne()
 //    @JoinColumn(name = "inventory_id", referencedColumnName = "inventory_id", insertable = false, updatable = false)
 //    private Inventory inventory;
 //
