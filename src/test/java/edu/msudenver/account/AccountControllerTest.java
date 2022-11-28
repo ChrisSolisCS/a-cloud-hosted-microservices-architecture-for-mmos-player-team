@@ -27,7 +27,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(value = AccountController.class)
-public class AccountControllerTest {
+class AccountControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -50,7 +50,7 @@ public class AccountControllerTest {
     }
 
     @Test
-    public void testGetAccounts() throws Exception {
+    void testGetAccounts() throws Exception {
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .get("/accounts/")
                 .accept(MediaType.APPLICATION_JSON)
@@ -73,7 +73,7 @@ public class AccountControllerTest {
     }
 
     @Test
-    public void testGetAccount() throws Exception {
+    void testGetAccount() throws Exception {
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .get("/accounts/10")
                 .accept(MediaType.APPLICATION_JSON)
@@ -95,7 +95,7 @@ public class AccountControllerTest {
     }
 
     @Test
-    public void testGetAccountNotFound() throws Exception {
+    void testGetAccountNotFound() throws Exception {
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .get("/accounts/10/notfound")
                 .accept(MediaType.APPLICATION_JSON)
@@ -111,7 +111,7 @@ public class AccountControllerTest {
     }
 
     @Test
-    public void testCreateAccount() throws Exception {
+    void testCreateAccount() throws Exception {
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .post("/accounts/")
                 .accept(MediaType.APPLICATION_JSON)
@@ -136,7 +136,7 @@ public class AccountControllerTest {
     }
 
     @Test
-    public void testCreateAccountBadRequest() throws Exception {
+    void testCreateAccountBadRequest() throws Exception {
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .post("/accounts/")
                 .accept(MediaType.APPLICATION_JSON)
@@ -155,7 +155,7 @@ public class AccountControllerTest {
     }
 
     @Test
-    public void testUpdateAccount() throws Exception {
+    void testUpdateAccount() throws Exception {
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .put("/accounts/10")
                 .accept(MediaType.APPLICATION_JSON)
@@ -187,7 +187,7 @@ public class AccountControllerTest {
     }
 
     @Test
-    public void testUpdateAccountNotFound() throws Exception {
+    void testUpdateAccountNotFound() throws Exception {
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .put("/accounts/10/notfound")
                 .accept(MediaType.APPLICATION_JSON)
@@ -229,7 +229,7 @@ public class AccountControllerTest {
     }
 
     @Test
-    public void testDeleteAccount() throws Exception {
+    void testDeleteAccount() throws Exception {
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .delete("/accounts/10")
                 .accept(MediaType.APPLICATION_JSON)
@@ -250,7 +250,7 @@ public class AccountControllerTest {
     }
 
     @Test
-    public void testDeleteAccountNotFound() throws Exception {
+    void testDeleteAccountNotFound() throws Exception {
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .delete("/accounts/10/notfound")
                 .accept(MediaType.APPLICATION_JSON)

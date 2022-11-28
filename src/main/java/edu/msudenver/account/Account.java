@@ -1,10 +1,14 @@
 package edu.msudenver.account;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-
+import lombok.Getter;
+import lombok.Setter;
+import lombok.RequiredArgsConstructor;
+@Getter
+@Setter
+@RequiredArgsConstructor // EMPTY CONSTRUCTOR
 @Entity
 @Table(name = "accounts")
 
@@ -33,44 +37,4 @@ public class Account {
         this.gamerTag = gamerTag;
         this.isOnline = isOnline;
     }
-
-    public Account(String email) {
-        this.email = email;
-    }
-
-    public Account() {
-    }
-
-    public Long getAccountId() {
-        return accountId;
-    }
-
-    public void setAccountId(Long accountId) {
-        this.accountId = accountId;
-    }
-
-    public String getGamerTag() {
-        return gamerTag;
-    }
-
-    public void setGamerTag(String gamerTag) {
-        this.gamerTag = gamerTag;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public Boolean getIsOnline() {
-        return isOnline;
-    }
-
-    public void setIsOnline(Boolean isOnline) {
-        this.isOnline = isOnline;
-    }
-
 }
