@@ -42,7 +42,8 @@ public class AccountController {
         if (retrievedAccount != null) {
             retrievedAccount.setEmail(updatedAccount.getEmail());
             retrievedAccount.setGamerTag(updatedAccount.getGamerTag());
-            retrievedAccount.setIsOnline(updatedAccount.getIsOnline());
+            retrievedAccount.setPassword(updatedAccount.getPassword());
+            retrievedAccount.setStatus(updatedAccount.getStatus());
             try {
                 return ResponseEntity.ok(accountService.saveAccount(retrievedAccount));
             } catch (Exception e) {
@@ -52,11 +53,5 @@ public class AccountController {
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-    }
-
-    @DeleteMapping(path = "/{accountId}")
-    public ResponseEntity<Void> deleteAccount(@PathVariable Long accountId) {
-        return new ResponseEntity<>(accountService.deleteAccount(accountId) ?
-                HttpStatus.NO_CONTENT : HttpStatus.NOT_FOUND);
     }
 }
