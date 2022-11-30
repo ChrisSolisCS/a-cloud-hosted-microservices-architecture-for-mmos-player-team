@@ -2,6 +2,8 @@ package edu.msudenver.inventory;
 
 
 import edu.msudenver.account.Account;
+import edu.msudenver.profile.Profile;
+import edu.msudenver.profile.ProfileService;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -47,6 +49,24 @@ public class InventoryController {
             return new ResponseEntity(ExceptionUtils.getStackTrace(e), HttpStatus.BAD_REQUEST);
         }
     }
+
+    @PutMapping(path = "/{inventoryId}/profile/{profileId}")
+    public ResponseEntity<Inventory> assignInventoryToProfile(@PathVariable Long inventoryId, @PathVariable Long profileId) {
+        Inventory retrievedInventory = inventoryService.getInventorySlot(inventoryId);
+        Profile profile = inventoryService.getProfile(profileId);
+        if (retrievedInventory != null && profile != null) {
+            retrievedInventory.setProfile(profile);
+            try {
+                return ResponseEntity.ok(inventoryService.saveInventory(retrievedInventory));
+            } catch(Exception e) {
+                e.printStackTrace();
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
 //    // Update item in inventory
 //    @PatchMapping(path = "/{inventoryId}",
 //            consumes = "application/json",

@@ -1,0 +1,79 @@
+{
+  "info": {
+    "_postman_id": "357a92f8-07f8-4cf8-94b7-067c81589964",
+    "name": "Inventory",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "23012864"
+  },
+  "item": [
+    {
+      "name": "Get Inventory",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/inventory/",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "inventory",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Save Inventory",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"catalogId\" : \"5\",\r\n    \"characterId\": \"4\",\r\n    \"equipped\" : false,\r\n    \"quantity\" : \"10\"\r\n}\r\n",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/inventory/",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "inventory",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Inventory",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/inventory/3",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "inventory",
+            "3"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

@@ -1,6 +1,9 @@
 package edu.msudenver.inventory;
 
 
+import edu.msudenver.account.Account;
+import edu.msudenver.profile.Profile;
+import edu.msudenver.profile.ProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,15 +16,21 @@ import java.util.NoSuchElementException;
 @Service
 public class InventoryService {
 
-        static final int MAX_INVENTORY_SIZE = 20;
+        final int MAX_INVENTORY_SIZE = 20;
 
         @Autowired
         private InventoryRepository inventoryRepository;
 
+        @Autowired
+        private ProfileRepository profileRepository;
+
         @PersistenceContext
         protected EntityManager entityManager;
+        private Profile profile;
 
-        public List<Inventory> getInventory() { return inventoryRepository.findAll();}
+        public List<Inventory> getInventory() { return inventoryRepository.findAll();
+
+        }
 
         public Inventory getInventorySlot(Long inventoryId) {
                 try {
@@ -63,4 +72,17 @@ public class InventoryService {
                 }
                 return false;
         }
+
+        public Profile getProfile(Long profileId) {
+                try {
+                        return profileRepository.findById(profileId).get();
+                } catch(NoSuchElementException | IllegalArgumentException e) {
+                        e.printStackTrace();
+                        return null;
+                }
+        }
+        public void assignProfile(Profile profile){
+                this.profile = profile;
+        }
+
 }

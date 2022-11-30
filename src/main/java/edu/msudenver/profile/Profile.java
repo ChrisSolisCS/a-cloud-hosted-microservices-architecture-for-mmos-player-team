@@ -5,9 +5,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import edu.msudenver.account.Account;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+
+import edu.msudenver.inventory.Inventory;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.RequiredArgsConstructor;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter // Lombok annotation to generate getters
 @Setter // Lombok annotation to generate setters
@@ -26,6 +31,9 @@ public class Profile {
     @ManyToOne()
     @JoinColumn(name = "account_id", referencedColumnName = "account_id")
     private Account account;
+
+    @OneToMany(mappedBy = "profile", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private Set<Inventory> inventoryList = new HashSet<>();
 
     @Column(name = "profile_name")
     @NotNull(message = "you must have a profile name")
