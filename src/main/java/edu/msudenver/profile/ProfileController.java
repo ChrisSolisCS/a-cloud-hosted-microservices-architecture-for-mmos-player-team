@@ -1,5 +1,6 @@
 package edu.msudenver.profile;
 
+import edu.msudenver.account.Account;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,9 @@ import java.util.List;
 public class ProfileController {
     @Autowired
     private ProfileService profileService;
+
+    @Autowired
+    private ProfileService accountService;
 
     @GetMapping(produces = "application/json")
     public ResponseEntity<List<Profile>> getProfiles() {
@@ -42,6 +46,23 @@ public class ProfileController {
             retrievedProfile.setGender(updatedProfile.getGender());
             retrievedProfile.setOrigins(updatedProfile.getOrigins());
             retrievedProfile.setIsActive(updatedProfile.getIsActive());
+            try {
+                return ResponseEntity.ok(profileService.saveProfile(retrievedProfile));
+            } catch(Exception e) {
+                e.printStackTrace();
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PutMapping(path = "/{profileId}/accounts/{accountId}")
+    public ResponseEntity<Profile> assignProfileToAccount(@PathVariable Long profileId, @PathVariable Long accountId) {
+        Profile retrievedProfile = profileService.getProfile(profileId);
+        Account account = accountService.getAccountP(accountId);
+        if (retrievedProfile != null && account != null) {
+            retrievedProfile.setAccount(account);
             try {
                 return ResponseEntity.ok(profileService.saveProfile(retrievedProfile));
             } catch(Exception e) {
