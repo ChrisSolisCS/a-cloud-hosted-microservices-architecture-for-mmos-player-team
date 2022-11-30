@@ -7,8 +7,8 @@ import javax.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.RequiredArgsConstructor;
-@Getter
-@Setter
+@Getter // Lombok annotation to generate getters
+@Setter // Lombok annotation to generate setters
 @RequiredArgsConstructor // EMPTY CONSTRUCTOR
 @Entity
 @Table(name = "inventory")
@@ -45,4 +45,5 @@ public class Inventory {
         this.equipped = equipped;
         this.quantity = quantity;
     }
+
 }

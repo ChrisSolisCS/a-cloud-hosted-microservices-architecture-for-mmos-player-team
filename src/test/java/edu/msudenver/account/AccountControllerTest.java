@@ -60,7 +60,8 @@ public class AccountControllerTest {
         testAccount.setAccountId(Long.valueOf("10"));
         testAccount.setEmail("A.Gamer@gmail.com");
         testAccount.setGamerTag("testGamerTag");
-        testAccount.setIsOnline(true);
+        testAccount.setPassword("********");
+        testAccount.setStatus("Active");
 
         Mockito.when(accountRepository.findAll()).thenReturn(Arrays.asList(testAccount));
 
@@ -83,7 +84,8 @@ public class AccountControllerTest {
         testAccount.setAccountId(Long.valueOf("10"));
         testAccount.setEmail("A.Gamer@gmail.com");
         testAccount.setGamerTag("testGamerTag");
-        testAccount.setIsOnline(true);
+        testAccount.setPassword("********");
+        testAccount.setStatus("Active");
 
         Mockito.when(accountRepository.findById(Mockito.any())).thenReturn(Optional.of(testAccount));
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
@@ -115,14 +117,15 @@ public class AccountControllerTest {
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .post("/accounts/")
                 .accept(MediaType.APPLICATION_JSON)
-                .content("{\"accountId\":\"10\", \"email\": \"A.Gamer@gmail.com\",\"gamerTag\": \"testGamerTag\", \"isOnline\": \"true\"}")
+                .content("{\"accountId\":\"10\", \"email\": \"A.Gamer@gmail.com\",\"gamerTag\": \"testGamerTag\", \"password\": \"********\", \"status\": \"Active\"}")
                 .contentType(MediaType.APPLICATION_JSON);
 
         Account testAccount = new Account();
         testAccount.setAccountId(Long.valueOf("10"));
         testAccount.setEmail("A.Gamer@gmail.com");
         testAccount.setGamerTag("testGamerTag");
-        testAccount.setIsOnline(true);
+        testAccount.setPassword("********");
+        testAccount.setStatus("Active");
         
         Mockito.when(accountRepository.saveAndFlush(Mockito.any())).thenReturn(testAccount);
         Mockito.when(accountRepository.save(Mockito.any())).thenReturn(testAccount);
@@ -159,21 +162,23 @@ public class AccountControllerTest {
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .put("/accounts/10")
                 .accept(MediaType.APPLICATION_JSON)
-                .content("{\"accountId\":\"10\", \"email\": \"A.Gamer@gmail.com\",\"gamerTag\": \"testGamerTagUpdated\", \"isOnline\": \"false\"}")
+                .content("{\"accountId\":\"10\", \"email\": \"A.Gamer@gmail.com\",\"gamerTag\": \"testGamerTagUpdated\", \"password\": \"********\", \"status\": \"Active\"}")
                 .contentType(MediaType.APPLICATION_JSON);
 
         Account testAccount = new Account();
         testAccount.setAccountId(Long.valueOf("10"));
         testAccount.setEmail("A.Gamer@gmail.com");
         testAccount.setGamerTag("testGamerTag");
-        testAccount.setIsOnline(true);
+        testAccount.setPassword("********");
+        testAccount.setStatus("Active");
         Mockito.when(accountRepository.findById(Mockito.any())).thenReturn(Optional.of(testAccount));
 
         Account testAccountUpdated = new Account();
         testAccountUpdated.setAccountId(Long.valueOf("10"));
         testAccountUpdated.setEmail("A.Gamer@gmail.updated");
         testAccountUpdated.setGamerTag("testGamerTagUpdated");
-        testAccountUpdated.setIsOnline(false);
+        testAccountUpdated.setPassword("****");
+        testAccountUpdated.setStatus("Banned");
 
         Mockito.when(accountRepository.save(Mockito.any())).thenReturn(testAccountUpdated);
         Mockito.when(accountRepository.saveAndFlush(Mockito.any())).thenReturn(testAccountUpdated);
@@ -215,7 +220,8 @@ public class AccountControllerTest {
         testAccount.setAccountId(Long.valueOf("11"));
         testAccount.setEmail("A.Gamer@gmail.com");
         testAccount.setGamerTag("testGamerTag");
-        testAccount.setIsOnline(true);
+        testAccount.setPassword("********");
+        testAccount.setStatus("Active");
         Mockito.when(accountRepository.findById(Mockito.any())).thenReturn(Optional.of(testAccount));
 
         Mockito.when(accountRepository.save(Mockito.any())).thenThrow(IllegalArgumentException.class);
@@ -225,46 +231,6 @@ public class AccountControllerTest {
         MockHttpServletResponse response = result.getResponse();
 
         assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatus());
-        assertTrue(response.getContentAsString().isEmpty());
-    }
-
-    @Test
-    public void testDeleteAccount() throws Exception {
-        RequestBuilder requestBuilder = MockMvcRequestBuilders
-                .delete("/accounts/10")
-                .accept(MediaType.APPLICATION_JSON)
-                .contentType(MediaType.APPLICATION_JSON);
-
-        Account testAccount = new Account();
-        testAccount.setAccountId(Long.valueOf("10"));
-        testAccount.setEmail("A.Gamer@gmail.com");
-        testAccount.setGamerTag("testGamerTag");
-        testAccount.setIsOnline(true);
-        Mockito.when(accountRepository.findById(Mockito.any())).thenReturn(Optional.of(testAccount));
-        Mockito.when(accountRepository.existsById(Mockito.any())).thenReturn(true);
-
-        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
-
-        MockHttpServletResponse response = result.getResponse();
-        assertEquals(HttpStatus.NO_CONTENT.value(), response.getStatus());
-    }
-
-    @Test
-    public void testDeleteAccountNotFound() throws Exception {
-        RequestBuilder requestBuilder = MockMvcRequestBuilders
-                .delete("/accounts/10/notfound")
-                .accept(MediaType.APPLICATION_JSON)
-                .contentType(MediaType.APPLICATION_JSON);
-
-        Mockito.when(accountRepository.findById(Mockito.any())).thenReturn(Optional.empty());
-        Mockito.when(accountRepository.existsById(Mockito.any())).thenReturn(false);
-        Mockito.doThrow(IllegalArgumentException.class)
-                .when(accountRepository)
-                .deleteById(Mockito.any());
-        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
-
-        MockHttpServletResponse response = result.getResponse();
-        assertEquals(HttpStatus.NOT_FOUND.value(), response.getStatus());
         assertTrue(response.getContentAsString().isEmpty());
     }
 }
