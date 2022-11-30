@@ -33,7 +33,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"email\":\"player2@gmail.com\",\r\n    \"gamerTag\": \"newUser\"\r\n\r\n}",
+					"raw": "{\r\n    \"email\":\"player1@gmail.com\",\r\n    \"gamerTag\": \"newUser1\",\r\n    \"password\": \"passW0rd\",\r\n    \"status\" : \"active\"\r\n\r\n\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -82,7 +82,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"email\": \"player1@gmail.com\",\r\n    \"gamerTag\": \"newUser\"\r\n}",
+					"raw": "{\r\n    \"email\": \"player5@gmail.com\",\r\n    \"gamerTag\": \"newUser5\",\r\n    \"status\" : \"inactive\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -90,7 +90,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/accounts/1",
+					"raw": "http://localhost:8080/accounts/5",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -98,7 +98,7 @@
 					"port": "8080",
 					"path": [
 						"accounts",
-						"1"
+						"5"
 					]
 				}
 			},
@@ -110,7 +110,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/accounts/3",
+					"raw": "http://localhost:8080/accounts/2",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -118,7 +118,7 @@
 					"port": "8080",
 					"path": [
 						"accounts",
-						"3"
+						"2"
 					]
 				}
 			},
