@@ -22,6 +22,7 @@ public class CharacterSheet {
     @Column(name = "character_name")
     @NotNull(message = "you must have a character name")
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    //@UniqueConstraint(name = "UniqueNumberAndStatus", columnNames = {"personNumber", "isActive"}), //uncommenting this will cause an error but this is how I would implement a unique constraint
     private String characterName;
     // foreign key from the accouct table
     // join annotation
@@ -29,7 +30,10 @@ public class CharacterSheet {
     @JoinColumn(name = "account_id", updatable = false, insertable = false, referencedColumnName = "account_id")
     private Long accountId;
     // foreign key from the inventory table
+
+    //Inventory branch = new Inventory(); //is this how I would call inventory
     @Column(name = "inventory_id")
+    //@OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true) //I think this is cascading deletions? I don't beleve this is linked to Inventory though. uncommenting this will cause an error
     private Long inventoryId;
     // foreign key from the stats table
     @Column(name = "stats_id")
@@ -53,7 +57,7 @@ public class CharacterSheet {
         this.accountId = accountId;
         this.inventoryId = inventoryId;
         this.statsId = statsId;
-        this.equippedItem = null; // start with nothing equipped
+        this.equippedItem = null; // this.equippedItem = null; //aiming for this to be the starting weapon?
         this.classType = classType;
     }
 }
