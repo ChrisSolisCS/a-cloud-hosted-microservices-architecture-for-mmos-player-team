@@ -58,12 +58,6 @@ public class AccountController {
         }
     }
 
-    @DeleteMapping(path = "{/{accountId}")
-    public ResponseEntity<Void> deleteAccount(@PathVariable Long accountId) {
-        return new ResponseEntity<>(accountService.deleteAccount(accountId) ?
-                HttpStatus.NO_CONTENT : HttpStatus.NOT_FOUND);
-    }
-
 }
 
 
