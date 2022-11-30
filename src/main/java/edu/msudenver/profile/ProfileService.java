@@ -56,7 +56,6 @@ public class ProfileService {
         return false;
     }
 
-
     public Account getAccountP(Long accountId) {
         try {
             return accountRepository.findById(accountId).get();

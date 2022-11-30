@@ -1,5 +1,7 @@
 package edu.msudenver.account;
 
+import edu.msudenver.profile.Profile;
+import edu.msudenver.profile.ProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,9 @@ import java.util.NoSuchElementException;
 public class AccountService {
     @Autowired
     private AccountRepository accountRepository;
+
+    @Autowired
+    private ProfileRepository profileRepository;
 
     @PersistenceContext
     protected EntityManager entityManager;

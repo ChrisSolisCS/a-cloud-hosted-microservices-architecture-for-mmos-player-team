@@ -14,8 +14,6 @@ public class ProfileController {
     @Autowired
     private ProfileService profileService;
 
-    @Autowired
-    private ProfileService accountService;
 
     @GetMapping(produces = "application/json")
     public ResponseEntity<List<Profile>> getProfiles() {
@@ -60,7 +58,7 @@ public class ProfileController {
     @PutMapping(path = "/{profileId}/accounts/{accountId}")
     public ResponseEntity<Profile> assignProfileToAccount(@PathVariable Long profileId, @PathVariable Long accountId) {
         Profile retrievedProfile = profileService.getProfile(profileId);
-        Account account = accountService.getAccountP(accountId);
+        Account account = profileService.getAccountP(accountId);
         if (retrievedProfile != null && account != null) {
             retrievedProfile.setAccount(account);
             try {

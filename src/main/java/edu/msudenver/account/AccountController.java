@@ -1,5 +1,7 @@
 package edu.msudenver.account;
 
+import edu.msudenver.profile.Profile;
+import edu.msudenver.profile.ProfileService;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,6 +14,7 @@ import java.util.List;
 public class AccountController {
     @Autowired
     private AccountService accountService;
+    private ProfileService profileService;
 
     @GetMapping(produces = "application/json")
     public ResponseEntity<List<Account>> getAccounts() {
@@ -54,4 +57,31 @@ public class AccountController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+    @DeleteMapping(path = "{/{accountId}")
+    public ResponseEntity<Void> deleteAccount(@PathVariable Long accountId) {
+        return new ResponseEntity<>(accountService.deleteAccount(accountId) ?
+                HttpStatus.NO_CONTENT : HttpStatus.NOT_FOUND);
+    }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

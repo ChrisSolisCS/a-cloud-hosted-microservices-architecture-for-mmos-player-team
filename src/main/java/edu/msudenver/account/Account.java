@@ -34,7 +34,7 @@ public class Account {
     @Column(name = "status")
     private String status;
 
-    @OneToMany(mappedBy = "account")
+    @OneToMany(mappedBy = "account", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private Set<Profile> profileList = new HashSet<>();
 
     public Account(Long accountId, String email, String gamerTag, String password, String status) {
@@ -58,6 +58,9 @@ public class Account {
 
     public void addProfileToList(Profile profile) {
         profileList.add(profile);
+    }
+    public void deleteProfileFromList(Profile profile) {
+        profileList.remove(profile);
     }
 
     public Long getAccountId() {

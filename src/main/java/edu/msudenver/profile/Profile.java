@@ -22,7 +22,8 @@ public class Profile {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Long profileId;
     @JsonIgnore
-    @ManyToOne(cascade = CascadeType.ALL)
+    //@ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne()
     @JoinColumn(name = "account_id", referencedColumnName = "account_id")
     private Account account;
 
