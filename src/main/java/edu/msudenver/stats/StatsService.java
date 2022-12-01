@@ -48,6 +48,11 @@ public class StatsService {
             }
             return false;
         }
+        
+      //public Stats patchStats(Stats Stats) { //we need a patch method, I could not test if this works due to naming conventions
+        //return StatsRepository.save(characterStats);
+    //}
+
     }
 
 
