@@ -40,13 +40,21 @@ public class Inventory {
     @Column(name = "quantity")
     private int quantity;
 
-    public Inventory(Long inventoryId, Profile profile, Long catalogId, boolean equipped, int quantity) {
+    @Column(name = "type" )
+    private String type;
+
+    @Column(name = "name")
+    private String name;
+
+    public Inventory(Long inventoryId, Profile profile, Long catalogId, boolean equipped, int quantity, String type, String name) {
         this.inventoryId = inventoryId;
         this.profile = profile;
         //this.profileId = profileId;
         this.catalogId = catalogId;
         this.equipped = equipped;
         this.quantity = quantity;
+        this.type = type;
+        this.name = name;
     }
 
 }

@@ -29,7 +29,7 @@ public class InventoryController {
         return new ResponseEntity<>(inventory, inventory == null ? HttpStatus.NOT_FOUND : HttpStatus.OK);
     }
 
-//    // Get a profile's inventory
+//
 //    @GetMapping(path = "/profile/{profileId}", produces = "application/json")
 //    public ResponseEntity<Inventory> getOneInventory( @PathVariable Long profileId) {
 //        Inventory inventory = inventoryService.getOneInventory(profileId);
@@ -88,6 +88,27 @@ public class InventoryController {
             else {
                 retrievedInventory.setEquipped(false);
             }
+            try {
+                return ResponseEntity.ok(inventoryService.saveInventory(retrievedInventory));
+            } catch(Exception e) {
+                e.printStackTrace();
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PutMapping (path = "/{inventoryId}/profile/{profileId}/edit",
+            consumes = "application/json",
+            produces = "application/json")
+    public ResponseEntity<Inventory> changeQuantityType(@PathVariable Long inventoryId, @PathVariable Long profileId, @RequestBody Inventory updatedInventory) {
+        Inventory retrievedInventory = inventoryService.getInventorySlot(inventoryId);
+        Profile profile = inventoryService.getProfile(profileId);
+        if (retrievedInventory != null && profile != null) {
+           retrievedInventory.setQuantity(updatedInventory.getQuantity());
+           retrievedInventory.setType(updatedInventory.getType());
+           retrievedInventory.setName(updatedInventory.getName());
             try {
                 return ResponseEntity.ok(inventoryService.saveInventory(retrievedInventory));
             } catch(Exception e) {

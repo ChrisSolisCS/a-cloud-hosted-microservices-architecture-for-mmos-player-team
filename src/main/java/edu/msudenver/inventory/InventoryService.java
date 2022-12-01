@@ -19,7 +19,7 @@ import java.util.Set;
 public class InventoryService {
 
         final int MAX_INVENTORY_SIZE = 20;
-        private Set<Inventory> inventoryList = new HashSet<>();
+        //private Set<Inventory> inventoryList = new HashSet<>();
         @Autowired
         private InventoryRepository inventoryRepository;
 
