@@ -29,6 +29,13 @@ public class InventoryController {
         return new ResponseEntity<>(inventory, inventory == null ? HttpStatus.NOT_FOUND : HttpStatus.OK);
     }
 
+//    // Get a profile's inventory
+//    @GetMapping(path = "/profile/{profileId}", produces = "application/json")
+//    public ResponseEntity<Inventory> getOneInventory( @PathVariable Long profileId) {
+//        Inventory inventory = inventoryService.getOneInventory(profileId);
+//        return new ResponseEntity<>(inventory, inventory == null ? HttpStatus.NOT_FOUND : HttpStatus.OK);
+//    }
+
     // Add new item to inventory
     @PatchMapping(consumes = "application/json", produces = "application/json")
     public ResponseEntity<Inventory> addItem(@RequestBody Inventory inventoryId) {
@@ -67,23 +74,30 @@ public class InventoryController {
         }
     }
 
-//    // Update item in inventory
-//    @PatchMapping(path = "/{inventoryId}",
-//            consumes = "application/json",
-//            produces = "application/json")
-//    public ResponseEntity<Inventory> updateInventory(@PathVariable Long inventoryId, @RequestBody Inventory updatedInventory) {
-//        Inventory retrievedInventory = inventoryService.getInventorySlot(inventoryId);
-//
-//        if (retrievedInventory != null) {
-//            try {
-//                retrievedInventory.setCatalogId(updatedInventory.getCatalogId());
-//                return ResponseEntity.ok(inventoryService.saveInventory(retrievedInventory));
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//                return new ResponseEntity(ExceptionUtils.getStackTrace(e), HttpStatus.BAD_REQUEST);
-//            }
-//        } else { return new ResponseEntity<>(HttpStatus.NOT_FOUND); }
-//    }
+    // Equip
+    @PutMapping (path = "/{inventoryId}/profile/{profileId}",
+            consumes = "application/json",
+            produces = "application/json")
+    public ResponseEntity<Inventory> equipItem(@PathVariable Long inventoryId, @PathVariable Long profileId, @RequestBody Inventory updatedInventory) {
+        Inventory retrievedInventory = inventoryService.getInventorySlot(inventoryId);
+        Profile profile = inventoryService.getProfile(profileId);
+        if (retrievedInventory != null && profile != null) {
+            if(retrievedInventory.isEquipped() == false) {
+                retrievedInventory.setEquipped(true);
+            }
+            else {
+                retrievedInventory.setEquipped(false);
+            }
+            try {
+                return ResponseEntity.ok(inventoryService.saveInventory(retrievedInventory));
+            } catch(Exception e) {
+                e.printStackTrace();
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 
     // Delete item from inventory
     @DeleteMapping(path = "/{catalogId}")

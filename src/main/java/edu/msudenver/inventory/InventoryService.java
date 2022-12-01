@@ -10,14 +10,16 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import java.util.HashSet;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Set;
 
 @Service
 public class InventoryService {
 
         final int MAX_INVENTORY_SIZE = 20;
-
+        private Set<Inventory> inventoryList = new HashSet<>();
         @Autowired
         private InventoryRepository inventoryRepository;
 
@@ -40,6 +42,16 @@ public class InventoryService {
                         return null;
                 }
         }
+
+
+//        public Inventory getOneInventory(Long profileId) {
+//                try {
+//                        return (Inventory) inventoryList;
+//                } catch(NoSuchElementException | IllegalArgumentException e) {
+//                        e.printStackTrace();
+//                        return null;
+//                }
+//        }
 
         public Inventory saveItem(Long catalogId, Long inventoryId) {
                 try {
