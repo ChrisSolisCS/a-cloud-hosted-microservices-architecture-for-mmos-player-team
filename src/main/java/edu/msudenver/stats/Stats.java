@@ -15,8 +15,6 @@ import lombok.RequiredArgsConstructor;
 @Table(name = "profiles")
 
 public class Stats {
-    @Column(name = "class_type") //class type
-    private String classType; //why is class type
 
     @Column(name = "user_id") //do we need this
     private String userId;
@@ -58,8 +56,7 @@ public class Stats {
 
     // name of the profile
     // class type will determine the base stats of the profile (attack, hp, etc)
-    public Stats(String name, String classType) {
+    public Stats(String name) {
         this.name = name;
-        this.classType = classType;
     }
 }
