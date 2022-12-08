@@ -29,7 +29,7 @@ public class Profile {
     @JsonIgnore
     //@ManyToOne(cascade = CascadeType.REMOVE)
     @ManyToOne()
-    @JoinColumn(name = "account_id", referencedColumnName = "account_id")
+    @JoinColumn(name = "account_id")
     private Account account;
 
     @OneToMany(mappedBy = "profile", cascade = CascadeType.REMOVE, orphanRemoval = true)

@@ -126,7 +126,7 @@ public class AccountControllerTest {
         testAccount.setGamerTag("testGamerTag");
         testAccount.setPassword("********");
         testAccount.setStatus("Active");
-        
+
         Mockito.when(accountRepository.saveAndFlush(Mockito.any())).thenReturn(testAccount);
         Mockito.when(accountRepository.save(Mockito.any())).thenReturn(testAccount);
 

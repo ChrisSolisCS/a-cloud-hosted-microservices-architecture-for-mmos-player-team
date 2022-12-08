@@ -14,7 +14,6 @@ import java.util.List;
 public class AccountController {
     @Autowired
     private AccountService accountService;
-    private ProfileService profileService;
 
     @GetMapping(produces = "application/json")
     public ResponseEntity<List<Account>> getAccounts() {
