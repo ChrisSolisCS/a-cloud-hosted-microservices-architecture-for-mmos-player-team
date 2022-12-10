@@ -49,7 +49,7 @@ public class Stats {
 
     @Column(name = "current_level") //big int
     private BigInteger currentLevel;
-    
+
     @Column(name = "current_profile")
     @NotNull(message = "current profile cannot be null")
     private String currentProfile; //this had a * I assumed it was going to be our primary char

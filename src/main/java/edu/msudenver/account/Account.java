@@ -2,12 +2,9 @@ package edu.msudenver.account;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import edu.msudenver.profile.Profile;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "accounts")
@@ -34,9 +31,6 @@ public class Account {
     @Column(name = "status")
     private String status;
 
-    @OneToMany(mappedBy = "account", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private Set<Profile> profileList = new HashSet<>();
-
     public Account(Long accountId, String email, String gamerTag, String password, String status) {
         this.accountId = accountId;
         this.email = email;
@@ -50,17 +44,6 @@ public class Account {
     }
 
     public Account() {
-    }
-
-    public Set<Profile> getProfileList() {
-        return profileList;
-    }
-
-    public void addProfileToList(Profile profile) {
-        profileList.add(profile);
-    }
-    public void deleteProfileFromList(Profile profile) {
-        profileList.remove(profile);
     }
 
     public Long getAccountId() {

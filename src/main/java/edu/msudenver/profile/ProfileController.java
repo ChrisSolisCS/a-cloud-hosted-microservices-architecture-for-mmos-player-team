@@ -1,11 +1,13 @@
 package edu.msudenver.profile;
 
 import edu.msudenver.account.Account;
+import edu.msudenver.inventory.Inventory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -13,6 +15,9 @@ import java.util.List;
 public class ProfileController {
     @Autowired
     private ProfileService profileService;
+
+    @Autowired
+    private ProfileRepository profileRepository;
 
 
     @GetMapping(produces = "application/json")
@@ -24,6 +29,13 @@ public class ProfileController {
     public ResponseEntity<Profile> getProfile(@PathVariable Long profileId) {
         Profile profile = profileService.getProfile(profileId);
         return new ResponseEntity<>(profile, profile == null ? HttpStatus.NOT_FOUND : HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/account/{accountId}", produces = "application/json")
+    public ResponseEntity<Profile> getAccountProfiles(@PathVariable Long accountId) {
+        List<Profile> profile = new ArrayList<Profile>();
+        profile = profileRepository.getProfileByAccountId(accountId);
+        return new ResponseEntity(profile, profile == null ? HttpStatus.NOT_FOUND : HttpStatus.OK);
     }
 
     @PostMapping(consumes = "application/json", produces = "application/json")

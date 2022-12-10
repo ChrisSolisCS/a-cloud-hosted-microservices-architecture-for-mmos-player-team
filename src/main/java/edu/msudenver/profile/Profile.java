@@ -10,6 +10,7 @@ import edu.msudenver.inventory.Inventory;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.RequiredArgsConstructor;
+import springfox.documentation.spring.web.json.Json;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -26,14 +27,15 @@ public class Profile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Long profileId;
-    @JsonIgnore
+    //@JsonIgnore
     //@ManyToOne(cascade = CascadeType.REMOVE)
     @ManyToOne()
-    @JoinColumn(name = "account_id")
+    @JoinColumn(name = "account_id", referencedColumnName = "account_id", insertable = false, updatable = false)
     private Account account;
 
-    @OneToMany(mappedBy = "profile", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private Set<Inventory> inventoryList = new HashSet<>();
+    @Column(name = "account_id")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private Long accountId;
 
     @Column(name = "profile_name")
     @NotNull(message = "you must have a profile name")
@@ -51,8 +53,9 @@ public class Profile {
     @Column(name = "is_active")
     private Boolean isActive;
 
-    public Profile(Long profileId, String profileName, Account account, String classType, String gender, String origins, Boolean isActive) {
+    public Profile(Long profileId, Long accountId, String profileName, Account account, String classType, String gender, String origins, Boolean isActive) {
         this.profileId = profileId;
+        this.accountId = accountId;
         this.profileName = profileName;
         this.account = account;
         this.classType = classType;
