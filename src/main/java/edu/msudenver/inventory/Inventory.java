@@ -22,16 +22,6 @@ public class Inventory {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Long inventoryId;
 
-    /*
-        @ManyToOne()
-        @JoinColumn(name = "profile_id", referencedColumnName = "profile_id", insertable = false, updatable = false)
-        private Profile profile;
-
-        @Column(name = "profile_id")
-        @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-        private Long profileId;
-
-     */
     @JsonIgnore
     @ManyToOne()
     @JoinColumn(name = "profile_id", referencedColumnName = "profile_id", insertable = false, updatable = false)

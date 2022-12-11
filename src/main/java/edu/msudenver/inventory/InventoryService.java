@@ -17,9 +17,6 @@ import java.util.Set;
 
 @Service
 public class InventoryService {
-
-        final int MAX_INVENTORY_SIZE = 20;
-        //private Set<Inventory> inventoryList = new HashSet<>();
         @Autowired
         private InventoryRepository inventoryRepository;
 
@@ -30,9 +27,7 @@ public class InventoryService {
         protected EntityManager entityManager;
         private Profile profile;
 
-        public List<Inventory> getInventory() { return inventoryRepository.findAll();
-
-        }
+        public List<Inventory> getInventory() { return inventoryRepository.findAll();}
 
         public Inventory getInventorySlot(Long inventoryId) {
                 try {
@@ -42,37 +37,24 @@ public class InventoryService {
                         return null;
                 }
         }
-
-
-//        public Inventory getOneInventory(Long profileId) {
+//        public Inventory saveItem(Long catalogId, Long inventoryId) {
 //                try {
-//                        return (Inventory) inventoryList;
+//                        Inventory in = inventoryRepository.findById(inventoryId).get();
+//                        if (in.getCatalogId() == null){
+//                                in.setCatalogId(catalogId);
+//                        }
+//                        return inventoryRepository.findById(inventoryId).get();
 //                } catch(NoSuchElementException | IllegalArgumentException e) {
 //                        e.printStackTrace();
 //                        return null;
 //                }
 //        }
-
-        public Inventory saveItem(Long catalogId, Long inventoryId) {
-                try {
-                        Inventory in = inventoryRepository.findById(inventoryId).get();
-                        if (in.getCatalogId() == null){
-                                in.setCatalogId(catalogId);
-                        }
-                        return inventoryRepository.findById(inventoryId).get();
-                } catch(NoSuchElementException | IllegalArgumentException e) {
-                        e.printStackTrace();
-                        return null;
-                }
-        }
-
         @Transactional
         public Inventory saveInventory(Inventory inventory) {
                 inventory = inventoryRepository.saveAndFlush(inventory);
                 entityManager.refresh(inventory);
                 return inventory;
         }
-
         public boolean deleteInventory(Long catalogId) {
                 try {
                         if(inventoryRepository.existsById(catalogId) ){
@@ -84,7 +66,6 @@ public class InventoryService {
                 }
                 return false;
         }
-
         public Profile getProfile(Long profileId) {
                 try {
                         return profileRepository.findById(profileId).get();
@@ -93,8 +74,4 @@ public class InventoryService {
                         return null;
                 }
         }
-        public void assignProfile(Profile profile){
-                this.profile = profile;
-        }
-
 }
