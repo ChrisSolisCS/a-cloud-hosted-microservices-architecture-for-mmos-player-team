@@ -2,5 +2,5 @@ package edu.msudenver.stats;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface StatsRepository extends JpaRepository<Stats, String> {
+public interface StatsRepository extends JpaRepository<Stats, Long> {
 }

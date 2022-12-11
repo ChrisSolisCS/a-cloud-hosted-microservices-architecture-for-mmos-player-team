@@ -2,8 +2,11 @@ package edu.msudenver.stats;
 
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.math.BigInteger;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import edu.msudenver.profile.Profile;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.RequiredArgsConstructor;
@@ -12,34 +15,24 @@ import lombok.RequiredArgsConstructor;
 @Setter
 @RequiredArgsConstructor // EMPTY CONSTRUCTOR
 @Entity
-@Table(name = "profiles")
-
+@Table(name = "stats")
 public class Stats {
+    @Id
+    @Column(name = "stats_id", columnDefinition = "SERIAL")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private Long statsId;
 
-    @Column(name = "user_id") //do we need this
-    private String userId;
+    @JsonIgnore
+    @OneToOne
+    @JoinColumn(name = "profile_id", referencedColumnName = "profile_id")
+    private Profile profile;
 
-    @Column(name = "attack") //do we need any constraints?
+    @Column(name = "attack")
     private int attack;
 
-    @Column(name = "zone_id")
-    private String zoneId;
-
-    @Column(name = "equipped_item")
-    private String equippedItem;
-
-    @Column(name = "name")
-    private String name;
-
-    @Column(name = "inventory_id")
-    private String inventoryId;
-
-    @Column(name = "item_id") //foreign key
-    private String itemId;
-
-    @Id
-    @Column(name = "profile_id")
-    private String profileId;
+    @Column(name = "defense")
+    private int defense;
 
     @Column(name="hp")
     private int hp;
@@ -50,13 +43,23 @@ public class Stats {
     @Column(name = "current_level") //big int
     private BigInteger currentLevel;
 
-    @Column(name = "current_profile")
-    @NotNull(message = "current profile cannot be null")
-    private String currentProfile; //this had a * I assumed it was going to be our primary char
+    // would probably be a zone object?
+    @Column(name = "current_zone")
+    private int currentZone;
 
-    // name of the profile
-    // class type will determine the base stats of the profile (attack, hp, etc)
-    public Stats(String name) {
-        this.name = name;
+    // would probably be a zone object?
+    @Column(name = "current_cell")
+    private int currentCell;
+
+    // constructor
+    public Stats(Long statsId, int attack, int defense, int hp, int xp, BigInteger currentLevel, int currentZone, int currentCell) {
+        this.statsId = statsId;
+        this.attack = attack;
+        this.defense = defense;
+        this.hp = hp;
+        this.xp = xp;
+        this.currentLevel = currentLevel;
+        this.currentZone = currentZone;
+        this.currentCell = currentCell;
     }
 }
