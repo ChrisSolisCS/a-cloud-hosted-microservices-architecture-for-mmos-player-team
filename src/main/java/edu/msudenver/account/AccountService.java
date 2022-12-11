@@ -16,8 +16,6 @@ public class AccountService {
     @Autowired
     private AccountRepository accountRepository;
 
-    @Autowired
-    private ProfileRepository profileRepository;
 
     @PersistenceContext
     protected EntityManager entityManager;
