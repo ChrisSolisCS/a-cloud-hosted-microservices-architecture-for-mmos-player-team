@@ -99,16 +99,4 @@ public class ProfileService {
         return false;
     }
 
-    public Account getAccountP(Long accountId) {
-        try {
-            return accountRepository.findById(accountId).get();
-        } catch(NoSuchElementException | IllegalArgumentException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    public void assignAccount(Account account){
-        this.account = account;
-    }
 }

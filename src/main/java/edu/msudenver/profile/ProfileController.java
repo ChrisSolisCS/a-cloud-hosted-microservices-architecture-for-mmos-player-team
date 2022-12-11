@@ -67,22 +67,6 @@ public class ProfileController {
         }
     }
 
-    @PutMapping(path = "/{profileId}/accounts/{accountId}")
-    public ResponseEntity<Profile> assignProfileToAccount(@PathVariable Long profileId, @PathVariable Long accountId) {
-        Profile retrievedProfile = profileService.getProfile(profileId);
-        Account account = profileService.getAccountP(accountId);
-        if (retrievedProfile != null && account != null) {
-            retrievedProfile.setAccount(account);
-            try {
-                return ResponseEntity.ok(profileService.saveProfile(retrievedProfile));
-            } catch(Exception e) {
-                e.printStackTrace();
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
 
     @DeleteMapping(path = "/{profileId}")
     public ResponseEntity<Void> deleteProfile(@PathVariable Long profileId) {
