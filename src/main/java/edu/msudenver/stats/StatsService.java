@@ -54,21 +54,21 @@ public class StatsService {
         }
     }
 
-    public Stats gainXP(Long statsId, int xpToAdd) {
-        try {
-            Stats statsProfile = statsRepository.findById(statsId).get();
-            levelUp(statsProfile, xpToAdd);
-
-            if (checkAccountOnline.matches("Online")){
-                return statsProfile;
-            }else {
-                throw new IllegalArgumentException("Account is not logged in. Log in to account first.");
-            }
-        } catch(NoSuchElementException | IllegalArgumentException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
+//    public Stats gainXP(Long statsId, int xpToAdd) {
+//        try {
+//            Stats statsProfile = statsRepository.findById(statsId).get();
+//            levelUp(statsProfile, xpToAdd);
+//
+//            if (checkAccountOnline.matches("Online")){
+//                return statsProfile;
+//            }else {
+//                throw new IllegalArgumentException("Account is not logged in. Log in to account first.");
+//            }
+//        } catch(NoSuchElementException | IllegalArgumentException e) {
+//            e.printStackTrace();
+//            return null;
+//        }
+//    }
 
     public void levelUp(Stats statsProfile, int xpToAdd){
         int currXP = statsProfile.getXp();
