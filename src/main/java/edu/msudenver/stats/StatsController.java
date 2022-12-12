@@ -64,12 +64,16 @@ public class StatsController {
         return ResponseEntity.ok(statsService.getAllProfileStats());
     }
 
+//    @GetMapping(value = "/{statsId}", produces = "application/json")
+//    public ResponseEntity<Stats> getProfileStats(@PathVariable Long statsId) {
+//        Stats stats = statsService.getProfileStats(statsId);
+//        return new ResponseEntity<>(stats, stats == null ? HttpStatus.NOT_FOUND : HttpStatus.OK);
+//    }
     @GetMapping(value = "/{statsId}", produces = "application/json")
-    public ResponseEntity<Stats> getProfileStats(@PathVariable Long statsId) {
-        Stats stats = statsService.getProfileStats(statsId);
+    public ResponseEntity<Stats> getStatProfileForZone(@PathVariable Long statsId) {
+        Stats stats = statsService.createStatProfileForZone(statsId);
         return new ResponseEntity<>(stats, stats == null ? HttpStatus.NOT_FOUND : HttpStatus.OK);
     }
-
     @PostMapping(consumes = "application/json", produces = "application/json")
     public ResponseEntity<Stats> createProfileStats(@RequestBody Stats statsId) {
         try {

@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface StatsRepository extends JpaRepository<Stats, Long> {
     public Stats getStatByProfileId(Long profileId);
+    public Stats getAccountByProfileId (Long profileId);
 }

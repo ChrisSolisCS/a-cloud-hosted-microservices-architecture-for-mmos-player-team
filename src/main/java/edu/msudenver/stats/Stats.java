@@ -47,7 +47,7 @@ public class Stats {
     private int xp;
 
     @Column(name = "current_level") //big int
-    private BigInteger currentLevel;
+    private int currentLevel;
 
     // would probably be a zone object?
     @Column(name = "current_zone")
@@ -58,7 +58,7 @@ public class Stats {
     private int currentCell;
 
     // constructor
-    public Stats(Long statsId, Profile profile, Long profileId, int attack, int defense, int hp, int xp, BigInteger currentLevel, int currentZone, int currentCell) {
+    public Stats(Long statsId, Profile profile, Long profileId, int attack, int defense, int hp, int xp, int currentLevel, int currentZone, int currentCell) {
         this.statsId = statsId;
         this.profileId = profileId;
         this.profile = profile;
@@ -70,4 +70,6 @@ public class Stats {
         this.currentZone = currentZone;
         this.currentCell = currentCell;
     }
+
+
 }
