@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import java.math.BigInteger;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -41,6 +42,23 @@ public class ProfileService {
         }
     }
 
+    public Profile createProfileForZone(Long profileId) {
+        try {
+            Profile zoneProfile = profileRepository.findById(profileId).get();
+            String checkAccountOnline = zoneProfile.getAccount().getStatus();
+//            Stats zoneProfileStat = statsRepository.getStatByProfileId(zoneProfile.getProfileId());
+//            zoneProfileStat.setCurrentCell(1);
+            if (checkAccountOnline.matches("Online")){
+                return zoneProfile;
+            }else {
+                throw new IllegalArgumentException("Account is not logged in. Log in to account first.");
+            }
+        } catch(NoSuchElementException | IllegalArgumentException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     @Transactional
     public Profile saveProfile(Profile profile) {
         String classType = profile.getClassType().toLowerCase();
@@ -50,6 +68,7 @@ public class ProfileService {
         Stats retrievedStats = new Stats();
         retrievedStats.setProfileId(afterPId);
         retrievedStats.setXp(0);
+        retrievedStats.setCurrentLevel(BigInteger.valueOf(1));
 
         try{
             if (classType.matches("warrior")){

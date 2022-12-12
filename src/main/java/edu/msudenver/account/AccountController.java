@@ -44,8 +44,6 @@ public class AccountController {
         if (retrievedAccount != null) {
             retrievedAccount.setEmail(updatedAccount.getEmail());
             retrievedAccount.setGamerTag(updatedAccount.getGamerTag());
-            retrievedAccount.setPassword(updatedAccount.getPassword());
-            retrievedAccount.setStatus(updatedAccount.getStatus());
             try {
                 return ResponseEntity.ok(accountService.saveAccount(retrievedAccount));
             } catch (Exception e) {
@@ -57,6 +55,69 @@ public class AccountController {
         }
     }
 
+    @PutMapping(path = "/login/{accountId}",
+            consumes = "application/json",
+            produces = "application/json")
+    public ResponseEntity<Account> accountLogin(@PathVariable Long accountId, @RequestBody Account logInAccount) {
+        Account retrievedAccount = accountService.getAccount(accountId);
+        if (retrievedAccount != null) {
+
+            String userEmail = retrievedAccount.getEmail();
+            String userPassword = retrievedAccount.getPassword();
+            String logInAttemptEmail = logInAccount.getEmail();
+            String logInAttemptPassword = logInAccount.getPassword();
+            try {
+                if ((userEmail.matches(logInAttemptEmail)) && (userPassword.matches(logInAttemptPassword))) {
+                    retrievedAccount.setStatus("Online");
+                }else {
+                    throw new IllegalArgumentException();
+                }
+                return ResponseEntity.ok(accountService.saveAccount(retrievedAccount));
+            } catch (Exception e) {
+                e.printStackTrace();
+                return new ResponseEntity(ExceptionUtils.getStackTrace(e), HttpStatus.BAD_REQUEST);
+            }
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+
+    @PutMapping(path = "/logout/{accountId}",
+            consumes = "application/json",
+            produces = "application/json")
+    public ResponseEntity<Account> accountLogout(@PathVariable Long accountId, @RequestBody Account logInAccount) {
+        Account retrievedAccount = accountService.getAccount(accountId);
+        if (retrievedAccount != null) {
+
+            String userEmail = retrievedAccount.getEmail();
+            String userPassword = retrievedAccount.getPassword();
+            String logInAttemptEmail = logInAccount.getEmail();
+            String logInAttemptPassword = logInAccount.getPassword();
+
+            try {
+                if ((userEmail.matches(logInAttemptEmail)) && (userPassword.matches(logInAttemptPassword))) {
+                    retrievedAccount.setStatus("Offline");
+                } else{
+                    throw new IllegalArgumentException();
+                }
+                return ResponseEntity.ok(accountService.saveAccount(retrievedAccount));
+            } catch (Exception e) {
+                e.printStackTrace();
+                return new ResponseEntity(ExceptionUtils.getStackTrace(e), HttpStatus.BAD_REQUEST);
+            }
+        }else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+
+
+
+
 }
+
+
+
 
 

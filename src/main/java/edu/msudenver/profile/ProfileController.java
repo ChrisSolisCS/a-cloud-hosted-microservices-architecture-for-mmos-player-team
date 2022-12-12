@@ -25,9 +25,15 @@ public class ProfileController {
         return ResponseEntity.ok(profileService.getProfiles());
     }
 
+//    @GetMapping(path = "/{profileId}", produces = "application/json")
+//    public ResponseEntity<Profile> getProfile(@PathVariable Long profileId) {
+//        Profile profile = profileService.getProfile(profileId);
+//        return new ResponseEntity<>(profile, profile == null ? HttpStatus.NOT_FOUND : HttpStatus.OK);
+//    }
+
     @GetMapping(path = "/{profileId}", produces = "application/json")
-    public ResponseEntity<Profile> getProfile(@PathVariable Long profileId) {
-        Profile profile = profileService.getProfile(profileId);
+    public ResponseEntity<Profile> getZoneProfile(@PathVariable Long profileId) {
+        Profile profile = profileService.createProfileForZone(profileId);
         return new ResponseEntity<>(profile, profile == null ? HttpStatus.NOT_FOUND : HttpStatus.OK);
     }
 

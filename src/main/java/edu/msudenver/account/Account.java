@@ -24,7 +24,7 @@ public class Account {
     @NotNull(message = "gamerTag cannot be null")
     private String gamerTag;
 
-    @JsonIgnore
+
     @Column(name = "password")
     private String password;
 
