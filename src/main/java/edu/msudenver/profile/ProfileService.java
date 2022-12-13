@@ -89,7 +89,7 @@ public class ProfileService {
                 startingInventory.setName("Fists");
                 startingInventory.setEquipped(true);
                 startingInventory.setQuantity(1);
-                startingInventory.setType("Melee");
+                startingInventory.setType("Weapon");
                 inventoryRepository.saveAndFlush(startingInventory);
                 entityManager.refresh(startingStats);
 
@@ -104,7 +104,7 @@ public class ProfileService {
                 startingInventory.setName("Fists");
                 startingInventory.setEquipped(true);
                 startingInventory.setQuantity(1);
-                startingInventory.setType("Melee");
+                startingInventory.setType("Weapon");
                 inventoryRepository.saveAndFlush(startingInventory);
                 entityManager.refresh(startingStats);
 
@@ -119,7 +119,7 @@ public class ProfileService {
                 startingInventory.setName("Fists");
                 startingInventory.setEquipped(true);
                 startingInventory.setQuantity(1);
-                startingInventory.setType("Melee");
+                startingInventory.setType("Weapon");
                 inventoryRepository.saveAndFlush(startingInventory);
                 entityManager.refresh(startingStats);
 
