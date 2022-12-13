@@ -50,15 +50,14 @@ public class Stats {
     private int currentLevel;
 
     // would probably be a zone object?
-    @Column(name = "current_zone")
-    private int currentZone;
+    @Column(name = "current_cell_x")
+    private int currentCellX;
 
-    // would probably be a zone object?
-    @Column(name = "current_cell")
-    private int currentCell;
+    @Column(name = "current_cell_y")
+    private int currentCellY;
 
     // constructor
-    public Stats(Long statsId, Profile profile, Long profileId, int attack, int defense, int hp, int xp, int currentLevel, int currentZone, int currentCell) {
+    public Stats(Long statsId, Profile profile, Long profileId, int attack, int defense, int hp, int xp, int currentLevel) {
         this.statsId = statsId;
         this.profileId = profileId;
         this.profile = profile;
@@ -67,8 +66,6 @@ public class Stats {
         this.hp = hp;
         this.xp = xp;
         this.currentLevel = currentLevel;
-        this.currentZone = currentZone;
-        this.currentCell = currentCell;
     }
 
 

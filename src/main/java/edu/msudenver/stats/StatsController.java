@@ -112,8 +112,8 @@ public class StatsController {
             retrievedStats.setHp(updatedStats.getHp());
 
             retrievedStats.setCurrentLevel(updatedStats.getCurrentLevel());
-            retrievedStats.setCurrentZone(updatedStats.getCurrentZone());
-            retrievedStats.setCurrentCell(updatedStats.getCurrentCell());
+            retrievedStats.setCurrentCellX(updatedStats.getCurrentCellX());
+            retrievedStats.setCurrentCellY(updatedStats.getCurrentCellY());
 
             try {
                 return ResponseEntity.ok(statsService.saveProfileStats(retrievedStats));

@@ -73,6 +73,8 @@ public class ProfileService {
         Stats startingStats = new Stats();
         startingStats.setProfileId(afterPId);
         startingStats.setXp(0);
+        startingStats.setCurrentCellX(5);
+        startingStats.setCurrentCellY(5);
 
         //create starting inventory
         Inventory startingInventory = new Inventory();
