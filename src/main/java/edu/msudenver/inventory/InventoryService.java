@@ -37,7 +37,6 @@ public class InventoryService {
                         return null;
                 }
         }
-
         public Inventory equipItem (Inventory retrievedInventory, List <Inventory> inventoryWeapons, List <Inventory> inventoryArmor, List <Inventory> inventoryConsumable){ //can add List <Inventory> inventoryCurrency to paramaters later
 
                 if (retrievedInventory.getType().matches("Weapon")) {
@@ -91,10 +90,10 @@ public class InventoryService {
                 entityManager.refresh(inventory);
                 return inventory;
         }
-        public boolean deleteInventory(Long catalogId) {
+        public boolean deleteInventory(Long inventoryId) {
                 try {
-                        if(inventoryRepository.existsById(catalogId) ){
-                                inventoryRepository.deleteById(catalogId);
+                        if(inventoryRepository.existsById(inventoryId) ){
+                                inventoryRepository.deleteById(inventoryId);
                                 return true;
                         }
                 } catch(IllegalArgumentException e) {

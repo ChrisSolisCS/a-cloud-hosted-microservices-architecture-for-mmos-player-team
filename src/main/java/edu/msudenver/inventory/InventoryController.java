@@ -60,9 +60,9 @@ public class InventoryController {
         List<Inventory> inventoryWeapons = new ArrayList<Inventory>();
         inventoryWeapons = inventoryRepository.getInventoryByProfileIdAndType(profileId, "Weapon");
         List<Inventory> inventoryArmor = new ArrayList<Inventory>();
-        inventoryWeapons = inventoryRepository.getInventoryByProfileIdAndType( profileId, "Armor");
+        inventoryArmor = inventoryRepository.getInventoryByProfileIdAndType( profileId, "Armor");
         List<Inventory> inventoryConsumable = new ArrayList<Inventory>();
-        inventoryWeapons = inventoryRepository.getInventoryByProfileIdAndType( profileId, "Consumable");
+        inventoryConsumable = inventoryRepository.getInventoryByProfileIdAndType( profileId, "Consumable");
 //        List<Inventory> inventoryCurrency = new ArrayList<Inventory>();
 //        inventoryWeapons = inventoryRepository.getInventoryByProfileIdAndType( profileId, "Currency");
 
@@ -102,7 +102,7 @@ public class InventoryController {
         }
     }
     // Delete item from inventory
-    @DeleteMapping(path = "/{inventoryId}/")
+    @DeleteMapping(path = "/{inventoryId}/profile/{profileId}")
     public ResponseEntity<Void> deleteItem(@PathVariable Long inventoryId) {
         return new ResponseEntity<>(inventoryService.deleteInventory(inventoryId) ?
                 HttpStatus.NO_CONTENT : HttpStatus.NOT_FOUND);
