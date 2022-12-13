@@ -57,4 +57,11 @@ public class Inventory {
         this.name = name;
     }
 
+    public Inventory(long inventoryId, long profileId, long catalogId, boolean equipped, String type) {
+        this.inventoryId = inventoryId;
+        this.profileId = profileId;
+        this.catalogId = catalogId;
+        this.equipped = equipped;
+        this.type = type;
+    }
 }
