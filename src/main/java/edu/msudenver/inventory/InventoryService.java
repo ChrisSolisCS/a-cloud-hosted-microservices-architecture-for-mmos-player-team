@@ -37,6 +37,23 @@ public class InventoryService {
                         return null;
                 }
         }
+
+        public Inventory equipItem (Inventory retrievedInventory, List <Inventory> inventoryWeapons, String type){
+
+                if (retrievedInventory.getType().matches(type)) {
+                        System.out.println("type: " + retrievedInventory.getType());
+                        for (int i = 0; i < inventoryWeapons.size(); i++) {
+                                System.out.println("Boolean is equipped: " + inventoryWeapons.get(i).isEquipped());
+                                if (inventoryWeapons.get(i).isEquipped()) {
+                                        inventoryWeapons.get(i).setEquipped(false);
+
+                                        System.out.println("Element at " + i + ": " +inventoryWeapons.get(i).isEquipped());
+                                }
+                        }
+                        retrievedInventory.setEquipped(true);
+                } return retrievedInventory;
+        }
+
 //        public Inventory saveItem(Long catalogId, Long inventoryId) {
 //                try {
 //                        Inventory in = inventoryRepository.findById(inventoryId).get();
