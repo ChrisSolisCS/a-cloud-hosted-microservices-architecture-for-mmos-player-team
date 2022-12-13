@@ -13,7 +13,7 @@ public class MainApplication {
     }
 
     private static void getZone() {
-        final String uri = "https://cs-3250-section2-zone.herokuapp.com/"; //this url should be the correct url for zone.
+        final String uri = "https://cs-3250-section2-zone.herokuapp.com/"; //this url should be the correct url for zone, I see no reason why it would be the swaggerui
 
         RestTemplate restTemplate = new RestTemplate();
         String result = restTemplate.getForObject(uri, String.class);
