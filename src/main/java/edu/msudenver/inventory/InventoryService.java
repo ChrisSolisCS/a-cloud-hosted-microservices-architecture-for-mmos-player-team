@@ -37,28 +37,63 @@ public class InventoryService {
                         return null;
                 }
         }
-//        public Inventory saveItem(Long catalogId, Long inventoryId) {
-//                try {
-//                        Inventory in = inventoryRepository.findById(inventoryId).get();
-//                        if (in.getCatalogId() == null){
-//                                in.setCatalogId(catalogId);
+        public Inventory equipItem (Inventory retrievedInventory, List <Inventory> inventoryWeapons, List <Inventory> inventoryArmor, List <Inventory> inventoryConsumable){ //can add List <Inventory> inventoryCurrency to paramaters later
+
+                if (retrievedInventory.getType().matches("Weapon")) {
+                        for (int i = 0; i < inventoryWeapons.size(); i++) {
+                                if (inventoryWeapons.get(i).isEquipped()) {
+                                        inventoryWeapons.get(i).setEquipped(false);
+                                }
+                        }
+                        retrievedInventory.setEquipped(true);
+                }
+
+                if (retrievedInventory.getType().matches("Armor")) {
+                        for (int i = 0; i < inventoryArmor.size(); i++) {
+                                if (inventoryArmor.get(i).isEquipped()) {
+                                        inventoryArmor.get(i).setEquipped(false);
+                                }
+                        }
+                        retrievedInventory.setEquipped(true);
+                        System.out.println("After for loop");
+                }
+
+                if (retrievedInventory.getType().matches("Consumable")) {
+                        for (int i = 0; i < inventoryConsumable.size(); i++) {
+                                if (inventoryConsumable.get(i).isEquipped()) {
+                                        inventoryConsumable.get(i).setEquipped(false);
+
+                                }
+                        }
+                        retrievedInventory.setEquipped(true);
+                }
+
+//                if (retrievedInventory.getType().matches("Currency")) {
+//                        System.out.println("type: " + retrievedInventory.getType());
+//                        for (int i = 0; i < inventoryCurrency.size(); i++) {
+//                                System.out.println("Boolean is equipped: " + inventoryCurrency.get(i).isEquipped());
+//                                if (inventoryCurrency.get(i).isEquipped()) {
+//                                        inventoryCurrency.get(i).setEquipped(false);
+//
+//                                        System.out.println("Element at " + i + ": " +inventoryCurrency.get(i).isEquipped());
+//                                }
 //                        }
-//                        return inventoryRepository.findById(inventoryId).get();
-//                } catch(NoSuchElementException | IllegalArgumentException e) {
-//                        e.printStackTrace();
-//                        return null;
+//                        retrievedInventory.setEquipped(true);
+//                        System.out.println("After for loop");
 //                }
-//        }
+                return retrievedInventory;
+        }
+
         @Transactional
         public Inventory saveInventory(Inventory inventory) {
                 inventory = inventoryRepository.saveAndFlush(inventory);
                 entityManager.refresh(inventory);
                 return inventory;
         }
-        public boolean deleteInventory(Long catalogId) {
+        public boolean deleteInventory(Long inventoryId) {
                 try {
-                        if(inventoryRepository.existsById(catalogId) ){
-                                inventoryRepository.deleteById(catalogId);
+                        if(inventoryRepository.existsById(inventoryId) ){
+                                inventoryRepository.deleteById(inventoryId);
                                 return true;
                         }
                 } catch(IllegalArgumentException e) {

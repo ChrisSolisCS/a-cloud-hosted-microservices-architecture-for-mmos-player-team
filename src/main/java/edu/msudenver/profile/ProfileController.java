@@ -25,9 +25,15 @@ public class ProfileController {
         return ResponseEntity.ok(profileService.getProfiles());
     }
 
+//    @GetMapping(path = "/{profileId}", produces = "application/json")
+//    public ResponseEntity<Profile> getProfile(@PathVariable Long profileId) {
+//        Profile profile = profileService.getProfile(profileId);
+//        return new ResponseEntity<>(profile, profile == null ? HttpStatus.NOT_FOUND : HttpStatus.OK);
+//    }
+
     @GetMapping(path = "/{profileId}", produces = "application/json")
-    public ResponseEntity<Profile> getProfile(@PathVariable Long profileId) {
-        Profile profile = profileService.getProfile(profileId);
+    public ResponseEntity<Profile> getZoneProfile(@PathVariable Long profileId) {
+        Profile profile = profileService.createProfileForZone(profileId);
         return new ResponseEntity<>(profile, profile == null ? HttpStatus.NOT_FOUND : HttpStatus.OK);
     }
 
@@ -48,6 +54,8 @@ public class ProfileController {
         }
     }
 
+
+
     @PutMapping(path = "/{profileId}", consumes = "application/json", produces = "application/json")
     public ResponseEntity<Profile> updateProfile(@PathVariable Long profileId, @RequestBody Profile updatedProfile) {
         Profile retrievedProfile = profileService.getProfile(profileId);
@@ -67,22 +75,6 @@ public class ProfileController {
         }
     }
 
-    @PutMapping(path = "/{profileId}/accounts/{accountId}")
-    public ResponseEntity<Profile> assignProfileToAccount(@PathVariable Long profileId, @PathVariable Long accountId) {
-        Profile retrievedProfile = profileService.getProfile(profileId);
-        Account account = profileService.getAccountP(accountId);
-        if (retrievedProfile != null && account != null) {
-            retrievedProfile.setAccount(account);
-            try {
-                return ResponseEntity.ok(profileService.saveProfile(retrievedProfile));
-            } catch(Exception e) {
-                e.printStackTrace();
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
 
     @DeleteMapping(path = "/{profileId}")
     public ResponseEntity<Void> deleteProfile(@PathVariable Long profileId) {

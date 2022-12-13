@@ -50,29 +50,35 @@ public class InventoryController {
             return new ResponseEntity(ExceptionUtils.getStackTrace(e), HttpStatus.BAD_REQUEST);
         }
     }
-    // Old Equip
-    @PutMapping (path = "/{inventoryId}/profile/{profileId}",
-            consumes = "application/json",
-            produces = "application/json")
-    public ResponseEntity<Inventory> equipItem(@PathVariable Long inventoryId, @PathVariable Long profileId, @RequestBody Inventory updatedInventory) {
+
+    @PutMapping(path = "/equip/{inventoryId}/profile/{profileId}")
+    public ResponseEntity<Inventory> inventoryProfileEquip(@PathVariable Long inventoryId, @PathVariable Long profileId) {
         Inventory retrievedInventory = inventoryService.getInventorySlot(inventoryId);
-        Profile profile = inventoryService.getProfile(profileId);
+
+        Profile profile = retrievedInventory.getProfile();
+        //Boolean equipped = inventoryPatchRequest.getEquipped();
+        List<Inventory> inventoryWeapons = new ArrayList<Inventory>();
+        inventoryWeapons = inventoryRepository.getInventoryByProfileIdAndType(profileId, "Weapon");
+        List<Inventory> inventoryArmor = new ArrayList<Inventory>();
+        inventoryArmor = inventoryRepository.getInventoryByProfileIdAndType( profileId, "Armor");
+        List<Inventory> inventoryConsumable = new ArrayList<Inventory>();
+        inventoryConsumable = inventoryRepository.getInventoryByProfileIdAndType( profileId, "Consumable");
+//        List<Inventory> inventoryCurrency = new ArrayList<Inventory>();
+//        inventoryWeapons = inventoryRepository.getInventoryByProfileIdAndType( profileId, "Currency");
+
         if (retrievedInventory != null && profile != null) {
-            if(retrievedInventory.isEquipped() == false) {
-                retrievedInventory.setEquipped(true);
-            }
-            else {
-                retrievedInventory.setEquipped(false);
-            }
+            Inventory updatedInventory = inventoryService.equipItem(retrievedInventory, inventoryWeapons, inventoryArmor, inventoryConsumable);
+
             try {
-                return ResponseEntity.ok(inventoryService.saveInventory(retrievedInventory));
-            } catch(Exception e) {
+                return ResponseEntity.ok(inventoryService.saveInventory(updatedInventory));
+            } catch (Exception e) {
                 e.printStackTrace();
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+
     }
 
     @PutMapping (path = "/{inventoryId}/profile/{profileId}/edit",
@@ -96,7 +102,7 @@ public class InventoryController {
         }
     }
     // Delete item from inventory
-    @DeleteMapping(path = "/{inventoryId}/")
+    @DeleteMapping(path = "/{inventoryId}/profile/{profileId}")
     public ResponseEntity<Void> deleteItem(@PathVariable Long inventoryId) {
         return new ResponseEntity<>(inventoryService.deleteInventory(inventoryId) ?
                 HttpStatus.NO_CONTENT : HttpStatus.NOT_FOUND);

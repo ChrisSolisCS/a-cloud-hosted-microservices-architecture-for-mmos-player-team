@@ -64,20 +64,15 @@ public class StatsController {
         return ResponseEntity.ok(statsService.getAllProfileStats());
     }
 
+//    @GetMapping(value = "/{statsId}", produces = "application/json")
+//    public ResponseEntity<Stats> getProfileStats(@PathVariable Long statsId) {
+//        Stats stats = statsService.getProfileStats(statsId);
+//        return new ResponseEntity<>(stats, stats == null ? HttpStatus.NOT_FOUND : HttpStatus.OK);
+//    }
     @GetMapping(value = "/{statsId}", produces = "application/json")
-    public ResponseEntity<Stats> getProfileStats(@PathVariable Long statsId) {
-        Stats stats = statsService.getProfileStats(statsId);
+    public ResponseEntity<Stats> getStatProfileForZone(@PathVariable Long statsId) {
+        Stats stats = statsService.createStatProfileForZone(statsId);
         return new ResponseEntity<>(stats, stats == null ? HttpStatus.NOT_FOUND : HttpStatus.OK);
-    }
-
-    @PostMapping(consumes = "application/json", produces = "application/json")
-    public ResponseEntity<Stats> createProfileStats(@RequestBody Stats statsId) {
-        try {
-            return new ResponseEntity<>(statsService.saveProfileStats(statsId), HttpStatus.CREATED);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
     }
 
     @PutMapping(value = "/{statsId}/profile/{profileId}", produces = "application/json", consumes = "application/json")
@@ -98,19 +93,57 @@ public class StatsController {
     }
 
     // update all stats once selected class type is set?
-    @PutMapping(path = "/{statsId}", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<Stats> updateProfile(@PathVariable Long statsId, @RequestBody Stats updatedStats) {
-        Stats retrievedStats = statsService.getProfileStats(statsId);
+//    @PutMapping(path = "/{statsId}", consumes = "application/json", produces = "application/json")
+//    public ResponseEntity<Stats> updateProfile(@PathVariable Long statsId, @RequestBody Stats updatedStats) {
+//        Stats retrievedStats = statsService.getProfileStats(statsId);
+//        if (retrievedStats != null) {
+//            retrievedStats.setAttack(updatedStats.getAttack());
+//            retrievedStats.setDefense(updatedStats.getDefense());
+//            retrievedStats.setXp(updatedStats.getXp());
+//            retrievedStats.setHp(updatedStats.getHp());
+//
+//            retrievedStats.setCurrentLevel(updatedStats.getCurrentLevel());
+//            retrievedStats.setCurrentCellX(updatedStats.getCurrentCellX());
+//            retrievedStats.setCurrentCellY(updatedStats.getCurrentCellY());
+//
+//            try {
+//                return ResponseEntity.ok(statsService.saveProfileStats(retrievedStats));
+//            } catch(Exception e) {
+//                e.printStackTrace();
+//                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+//            }
+//        } else {
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
+//    }
+
+    @DeleteMapping(value = "/{statsId}")
+    public ResponseEntity<Stats> deleteProfileStats(@PathVariable Long statsId) {
+        return new ResponseEntity<>(statsService.deleteProfileStats(statsId) ?
+                HttpStatus.NO_CONTENT : HttpStatus.NOT_FOUND);
+    }
+
+    @PatchMapping(path = "/{statsId}", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<Stats> patchStats(@RequestBody Stats stats,
+                                            @PathVariable Long statsId) throws NullPointerException {
+
+        Stats retrievedStats = statsRepository.findById(statsId).get();
         if (retrievedStats != null) {
-            retrievedStats.setAttack(updatedStats.getAttack());
-            retrievedStats.setDefense(updatedStats.getDefense());
-            retrievedStats.setXp(updatedStats.getXp());
-            retrievedStats.setHp(updatedStats.getHp());
+            int currentLv = retrievedStats.getCurrentLevel();
+            int XpGained = stats.getXp();
+            int currentXp = retrievedStats.getXp();
+            int totalXp = XpGained + currentXp;
+            retrievedStats.setXp(totalXp);
+            // Adjust Stats for amount of Xp Gained IF we need to lv up
+            if(currentLv <= retrievedStats.getXp()/25){
+                int levelsGained = retrievedStats.getXp()/25 - currentLv;
+                retrievedStats.setAttack(retrievedStats.getAttack()+levelsGained*3);
+                retrievedStats.setDefense((retrievedStats.getDefense()+levelsGained*2));
+                retrievedStats.setHp(retrievedStats.getHp()+levelsGained*5);
+                retrievedStats.setCurrentLevel(retrievedStats.getXp()/25);
 
-            retrievedStats.setCurrentLevel(updatedStats.getCurrentLevel());
-            retrievedStats.setCurrentZone(updatedStats.getCurrentZone());
-            retrievedStats.setCurrentCell(updatedStats.getCurrentCell());
-
+                statsService.saveProfileStats(retrievedStats);
+            }
             try {
                 return ResponseEntity.ok(statsService.saveProfileStats(retrievedStats));
             } catch(Exception e) {
@@ -120,12 +153,6 @@ public class StatsController {
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-    }
-
-    @DeleteMapping(value = "/{statsId}")
-    public ResponseEntity<Stats> deleteProfileStats(@PathVariable Long statsId) {
-        return new ResponseEntity<>(statsService.deleteProfileStats(statsId) ?
-                HttpStatus.NO_CONTENT : HttpStatus.NOT_FOUND);
     }
 
     // partial update (PATCH) stats

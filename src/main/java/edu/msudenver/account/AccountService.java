@@ -35,6 +35,9 @@ public class AccountService {
 
     @Transactional
     public Account saveAccount(Account account) {
+        if (account.getAccountId() == null){
+            account.setStatus("Offline");
+        }
         account = accountRepository.saveAndFlush(account);
         entityManager.refresh(account);
         return account;
