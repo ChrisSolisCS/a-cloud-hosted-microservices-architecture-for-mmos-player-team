@@ -1,4 +1,4 @@
-/**
+
 package edu.msudenver.profile;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -277,4 +277,4 @@ class ProfileControllerTest {
         assertTrue(response.getContentAsString().isEmpty());
     }
 }
-**/
+
