@@ -54,6 +54,8 @@ public class ProfileController {
         }
     }
 
+
+
     @PutMapping(path = "/{profileId}", consumes = "application/json", produces = "application/json")
     public ResponseEntity<Profile> updateProfile(@PathVariable Long profileId, @RequestBody Profile updatedProfile) {
         Profile retrievedProfile = profileService.getProfile(profileId);

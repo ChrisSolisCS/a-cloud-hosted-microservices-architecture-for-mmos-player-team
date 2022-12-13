@@ -51,28 +51,95 @@ public class InventoryController {
         }
     }
     // Old Equip
-    @PutMapping (path = "/{inventoryId}/profile/{profileId}",
-            consumes = "application/json",
-            produces = "application/json")
-    public ResponseEntity<Inventory> equipItem(@PathVariable Long inventoryId, @PathVariable Long profileId, @RequestBody Inventory updatedInventory) {
+//    @PutMapping (path = "/equip/{inventoryId}/profile/{profileId}",
+//            consumes = "application/json",
+//            produces = "application/json")
+//    public ResponseEntity<Inventory> equipItem(@PathVariable Long inventoryId, @PathVariable Long profileId, @RequestBody Inventory updatedInventory) {
+//        Inventory retrievedInventory = inventoryService.getInventorySlot(inventoryId);
+//        Profile profile = inventoryService.getProfile(profileId);
+//        if (retrievedInventory != null && profile != null) {
+//            if(retrievedInventory.isEquipped() == false) {
+//                retrievedInventory.setEquipped(true);
+//            }
+//            else {
+//                retrievedInventory.setEquipped(false);
+//            }
+//            try {
+//                return ResponseEntity.ok(inventoryService.saveInventory(retrievedInventory));
+//            } catch(Exception e) {
+//                e.printStackTrace();
+//                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+//            }
+//        } else {
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
+//    }
+
+    @PutMapping(path = "/equip/{inventoryId}/profile/{profileId}")
+    public ResponseEntity<Inventory> inventoryProfileEquip(@PathVariable Long inventoryId, @PathVariable Long profileId) {
         Inventory retrievedInventory = inventoryService.getInventorySlot(inventoryId);
-        Profile profile = inventoryService.getProfile(profileId);
+
+        Profile profile = retrievedInventory.getProfile();
+        //Boolean equipped = inventoryPatchRequest.getEquipped();
+        List<Inventory> inventoryWeapons = new ArrayList<Inventory>();
+        inventoryWeapons = inventoryRepository.getInventoryByProfileIdAndType(profileId, "Weapon");
+//        List<Inventory> inventoryArmor = new ArrayList<Inventory>();
+//        inventoryWeapons = inventoryRepository.getInventoryByTypeAndProfileId("Armor", profileId);
+//        List<Inventory> inventoryConsumable = new ArrayList<Inventory>();
+//        inventoryWeapons = inventoryRepository.getInventoryByTypeAndProfileId("Consumable", profileId);
+//        List<Inventory> inventoryCurrency = new ArrayList<Inventory>();
+//        inventoryWeapons = inventoryRepository.getInventoryByTypeAndProfileId("Currency", profileId);
+
         if (retrievedInventory != null && profile != null) {
-            if(retrievedInventory.isEquipped() == false) {
+            if (retrievedInventory.getType().matches("Weapon")) {
+                System.out.println("type: " + retrievedInventory.getType());
+                for (int i = 0; i < inventoryWeapons.size(); i++) {
+                    System.out.println("Boolean is equipped: " + inventoryWeapons.get(i).isEquipped());
+                    if (inventoryWeapons.get(i).isEquipped()) {
+                        inventoryWeapons.get(i).setEquipped(false);
+
+                        System.out.println("Element at " + i + ": " +inventoryWeapons.get(i).isEquipped());
+                    }
+                }
                 retrievedInventory.setEquipped(true);
             }
             else {
-                retrievedInventory.setEquipped(false);
+                System.out.println("PART OF THE ELSE STATEMENT");
             }
             try {
                 return ResponseEntity.ok(inventoryService.saveInventory(retrievedInventory));
-            } catch(Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+
+//        if(retrievedInventory.getType() == "Weapon") {
+//            for (int i = 0; i <= inventoryWeapons.size(); i++) {
+//                if (inventoryWeapons.get(i).isEquipped() == true) {
+//                    //inventoryWeapons.get(i).setEquipped(true);
+//                    retrievedInventory.setEquipped(true);
+//                }
+//            }
+//            if (retrievedInventory.getType() == "Weapon") {
+//                retrievedInventory.setEquipped(true);
+//
+//                try {
+//                    return ResponseEntity.ok(inventoryService.saveInventory(retrievedInventory));
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                    return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+//                }
+//            } else {
+//                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//            }
+//        }
+//
+//        else {
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
     }
 
     @PutMapping (path = "/{inventoryId}/profile/{profileId}/edit",

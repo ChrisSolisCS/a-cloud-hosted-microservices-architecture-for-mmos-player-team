@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface InventoryRepository extends JpaRepository<Inventory, Long>{
     public List<Inventory> getInventoryByProfileId(Long profileId);
+    public List<Inventory> getInventoryByProfileIdAndType(Long profileId, String type);
 }
